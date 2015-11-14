@@ -1,10 +1,23 @@
-inputString = "Hello World I am a Morse Code Parser"
+import mraa, time
+
+inputString = "SOS we want food"
 morseString = ''
 valueString = ''
-dotLength = 1
+dotLength = 0.08
 dashLength = dotLength * 3
 wordSpacing = dotLength * 7
 words = inputString.split(' ')
+
+pin = mraa.Gpio(2)
+pin.dir(mraa.DIR_OUT)
+
+
+def beep(slt):
+    pin.write(1)
+    time.sleep(slt)
+    pin.write(0)
+    time.sleep(dotLength)
+
 
 for w in words:
     for c in w.upper():
@@ -19,13 +32,16 @@ for w in words:
 
 
 for c in morseString:
-    if c == '.' or c == '':
-        valueString += str(dotLength) + ','
-    elif c == '-' or c == ' ':
-        valueString += str(dashLength) + ','
+    if c == '.':
+        beep(dotLength)
+    elif c == '-':
+        beep(dashLength)
     elif c == '\n':
-        valueString += str(wordSpacing) + ','
+        time.sleep(wordSpacing)
+    elif c == ' ':
+	time.sleep(dotLength * 5)
 
+	
 print (valueString.strip( ',' ))
 
 
