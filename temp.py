@@ -30,11 +30,11 @@ trace1 = Scatter(
     )
 )
 
-layout = Layout(title='BafHax Temperature')
+layout = Layout(title='BathHack Temperature')
 
 fig = Figure(data=[trace1], layout=layout)
 
-print(py.plot(fig, filename='BafHax real-time temperature'))
+print(py.plot(fig, filename='BathHack real-time temperature'))
 
 stream = py.Stream(stream_token)
 stream.open()
@@ -49,4 +49,4 @@ while True:
     print("Temperature is:", final_temp)
     stream.write({'x': str(datetime.now()), 'y': final_temp})
 
-    time.sleep(0.05)
+    time.sleep(0.05)  # plot.ly allows 200req/s
